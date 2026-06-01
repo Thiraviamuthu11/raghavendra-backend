@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raghavendra Automobiles – Amaron Battery Dealer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #22c55e;
+    --green-dark: #16a34a;
+    --green-dim: rgba(34,197,94,0.15);
+    --green-border: rgba(34,197,94,0.35);
+    --bg: #030712;
+    --bg2: #0a1120;
+    --bg3: #111827;
+    --card: #0f1e2e;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --border: rgba(255,255,255,0.07);
+    --gold: #fbbf24;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--green-dark); border-radius: 3px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:999;
+    background: rgba(3,7,18,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 10px; cursor: pointer;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .logo-text { line-height: 1.1; }
+  .logo-text strong {
+    display: block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+  .logo-text span {
+    font-size: 10px;
+    color: var(--green);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex; gap: 8px; list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all .2s;
+    cursor: pointer;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--green);
+    background: var(--green-dim);
+  }
+
+  .nav-actions {
+    display: flex; gap: 10px; align-items: center;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: all .25s;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(34,197,94,0.3);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(34,197,94,0.45);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--green);
+    border: 1.5px solid var(--green-border);
+  }
+  .btn-outline:hover {
+    background: var(--green-dim);
+    border-color: var(--green);
+  }
+  .btn-ghost {
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+  .cart-btn {
+    position: relative;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 18px;
+    transition: all .2s;
+  }
+  .cart-btn:hover { background: var(--green-dim); border-color: var(--green-border); }
+  .cart-count {
+    position: absolute; top: -6px; right: -6px;
+    background: var(--green);
+    color: #fff;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 8px;
+    background: none; border: none;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--text); border-radius: 2px;
+    transition: all .3s;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    padding-top: 70px;
+    position: relative;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(34,197,94,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 80% at 10% 80%, rgba(34,197,94,0.04) 0%, transparent 60%),
+      linear-gradient(160deg, #030712 0%, #050e1a 50%, #030712 100%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(34,197,94,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,197,94,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-inner {
+    position: relative; z-index: 2;
+    max-width: 1280px; margin: 0 auto;
+    padding: 80px 5%;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-dim);
+    border: 1px solid var(--green-border);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeUp .6s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 7vw, 88px);
+    line-height: .95;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    animation: fadeUp .6s .1s ease both;
+  }
+  .hero-title .accent {
+    background: linear-gradient(135deg, var(--green), #4ade80);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 17px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 480px;
+    animation: fadeUp .6s .2s ease both;
+  }
+
+  .hero-btns {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-bottom: 48px;
+    animation: fadeUp .6s .3s ease both;
+  }
+
+  .hero-stats {
+    display: flex; gap: 32px;
+    animation: fadeUp .6s .4s ease both;
+  }
+  .hero-stat { }
+  .hero-stat strong {
+    display: block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--green);
+    line-height: 1;
+  }
+  .hero-stat span {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .hero-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeUp .6s .2s ease both;
+  }
+
+  .battery-glow {
+    position: absolute;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(34,197,94,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .battery-card-main {
+    position: relative; z-index: 2;
+    background: linear-gradient(135deg, rgba(15,30,46,0.9), rgba(10,17,32,0.95));
+    border: 1px solid var(--green-border);
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 60px rgba(34,197,94,0.1), 0 40px 80px rgba(0,0,0,0.5);
+    width: 340px;
+  }
+
+  .battery-emoji { font-size: 80px; margin-bottom: 16px; display: block; }
+  .battery-card-main h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .battery-card-main .model {
+    color: var(--green); font-size: 14px; font-weight: 600; margin-bottom: 20px;
+  }
+
+  .battery-specs-mini {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .spec-pill {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 12px;
+  }
+  .spec-pill strong { color: var(--green); display: block; font-size: 15px; }
+
+  .float-card {
+    position: absolute;
+    background: rgba(15,30,46,0.85);
+    border: 1px solid var(--green-border);
+    border-radius: 14px;
+    padding: 12px 16px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .float-card.top-right {
+    top: 0; right: -20px;
+    animation: float 4s ease-in-out infinite;
+  }
+  .float-card.bottom-left {
+    bottom: 20px; left: -30px;
+    animation: float 4s 2s ease-in-out infinite;
+  }
+  .float-card .fc-label { color: var(--muted); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+  .float-card .fc-val { color: #fff; font-weight: 700; font-size: 15px; margin-top: 2px; }
+  .float-card .stars { color: var(--gold); font-size: 12px; }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 90px 5%;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    display: inline-block;
+    background: var(--green-dim);
+    border: 1px solid var(--green-border);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 56px);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    line-height: 1;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 52px;
+  }
+
+  /* ── PRODUCT CARDS ── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all .3s;
+    position: relative;
+  }
+  .product-card:hover {
+    border-color: var(--green-border);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(34,197,94,0.1);
+  }
+
+  .product-badge {
+    position: absolute; top: 16px; left: 16px;
+    background: var(--green);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .product-badge.premium { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; }
+  .product-badge.new { background: #3b82f6; }
+
+  .product-img {
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 72px;
+    background: linear-gradient(135deg, rgba(34,197,94,0.05), rgba(34,197,94,0.02));
+    position: relative;
+  }
+
+  .product-body { padding: 20px; }
+  .product-type {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 6px;
+  }
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px; letter-spacing: .5px;
+    margin-bottom: 4px;
+  }
+  .product-model { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+
+  .product-meta {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-bottom: 16px;
+  }
+  .meta-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .meta-item .mi-label { color: var(--muted); }
+  .meta-item .mi-val { color: #fff; font-weight: 600; }
+
+  .product-rating {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; margin-bottom: 16px;
+  }
+  .stars-row { color: var(--gold); font-size: 13px; }
+  .rating-count { color: var(--muted); }
+
+  .product-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .product-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; color: var(--green);
+    letter-spacing: .5px;
+  }
+  .product-actions { display: flex; gap: 8px; }
+  .icon-btn {
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.04);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: all .2s;
+    color: var(--muted);
+  }
+  .icon-btn:hover { border-color: var(--green-border); background: var(--green-dim); color: var(--green); }
+  .add-cart-btn {
+    padding: 8px 18px;
+    border-radius: 9px;
+    background: var(--green);
+    color: #fff; border: none;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700; font-size: 13px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .add-cart-btn:hover { background: var(--green-dark); transform: scale(1.04); }
+
+  /* ── BATTERY FINDER ── */
+  #finder-page {
+    min-height: 100vh;
+    padding-top: 70px;
+    background: var(--bg);
+  }
+
+  .finder-header {
+    text-align: center;
+    padding: 70px 5% 0;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .finder-wrap {
+    max-width: 660px;
+    margin: 50px auto 80px;
+    padding: 0 5%;
+  }
+
+  .finder-card {
+    background: var(--card);
+    border: 1px solid var(--green-border);
+    border-radius: 28px;
+    padding: 44px;
+    box-shadow: 0 0 60px rgba(34,197,94,0.06);
+  }
+
+  .steps-bar {
+    display: flex; align-items: center;
+    margin-bottom: 44px;
+  }
+  .step-dot {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px;
+    flex-shrink: 0;
+    transition: all .3s;
+  }
+  .step-dot.done { background: var(--green); color: #fff; }
+  .step-dot.active { background: var(--green-dim); border: 2px solid var(--green); color: var(--green); }
+  .step-dot.todo { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted); }
+  .step-line { flex: 1; height: 2px; background: var(--border); margin: 0 6px; transition: background .3s; }
+  .step-line.done { background: var(--green); }
+
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px; letter-spacing: .5px;
+    margin-bottom: 8px;
+  }
+  .step-sub { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+
+  .type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .type-opt {
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .25s;
+    background: rgba(255,255,255,0.02);
+  }
+  .type-opt:hover { border-color: var(--green-border); background: var(--green-dim); }
+  .type-opt.selected { border-color: var(--green); background: var(--green-dim); box-shadow: 0 0 20px rgba(34,197,94,0.15); }
+  .type-emoji { font-size: 52px; margin-bottom: 10px; display: block; }
+  .type-label { font-weight: 800; font-size: 18px; }
+
+  .options-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 340px; overflow-y: auto; padding-right: 4px; }
+  .opt-btn {
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 16px;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600; font-size: 14px;
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+    text-align: left;
+    transition: all .2s;
+  }
+  .opt-btn:hover { border-color: var(--green-border); background: var(--green-dim); color: var(--green); }
+  .opt-btn.selected { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+
+  .finder-back {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all .2s;
+  }
+  .finder-back:hover { border-color: var(--green-border); color: var(--text); }
+
+  /* Result */
+  .result-card {
+    background: linear-gradient(135deg, rgba(15,30,46,0.6), rgba(10,17,32,0.8));
+    border: 1px solid var(--green-border);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .result-header {
+    text-align: center;
+    padding-bottom: 24px; margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .result-emoji { font-size: 72px; display: block; margin-bottom: 12px; }
+  .result-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; }
+  .result-model { color: var(--green); font-weight: 700; margin-top: 4px; }
+
+  .result-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .rs {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .rs-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+  .rs-val { color: var(--green); font-weight: 800; font-size: 18px; margin-top: 2px; }
+
+  .result-features { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .feat-tag {
+    background: var(--green-dim);
+    border: 1px solid var(--green-border);
+    color: var(--green);
+    font-size: 12px; font-weight: 600;
+    padding: 5px 12px; border-radius: 100px;
+  }
+
+  .result-price {
+    background: linear-gradient(135deg, rgba(34,197,94,0.12), rgba(34,197,94,0.05));
+    border: 1px solid var(--green-border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .rp-label { color: var(--muted); font-size: 13px; }
+  .rp-amount { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--green); letter-spacing: .5px; }
+  .stock-badge { background: rgba(34,197,94,0.15); border: 1px solid var(--green-border); color: var(--green); padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; }
+
+  .result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* ── WHY US ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px;
+    transition: all .3s;
+  }
+  .feature-card:hover {
+    border-color: var(--green-border);
+    background: rgba(34,197,94,0.03);
+    transform: translateY(-4px);
+  }
+
+  .feature-icon {
+    width: 50px; height: 50px;
+    background: var(--green-dim);
+    border: 1px solid var(--green-border);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+
+  .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .feature-card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  /* ── REVIEWS ── */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .review-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px;
+    transition: all .3s;
+  }
+  .review-card:hover { border-color: var(--green-border); }
+
+  .reviewer {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px;
+  }
+  .reviewer-avatar {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px; color: #fff;
+  }
+  .reviewer-info strong { display: block; font-weight: 700; }
+  .reviewer-info span { color: var(--muted); font-size: 13px; }
+  .review-stars { color: var(--gold); font-size: 14px; margin-bottom: 12px; }
+  .review-text { color: var(--muted); font-size: 14px; line-height: 1.6; }
+  .review-vehicle {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    color: var(--green); font-size: 12px; font-weight: 600;
+  }
+
+  /* ── CONTACT ── */
+  #contact-page { padding-top: 70px; }
+  .contact-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 70px 5% 40px;
+    display: grid; grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+  }
+
+  .contact-info h2 { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 1px; margin-bottom: 16px; }
+  .contact-info p { color: var(--muted); margin-bottom: 36px; line-height: 1.7; }
+
+  .contact-item {
+    display: flex; gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .ci-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: var(--green-dim); border: 1px solid var(--green-border);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .ci-label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .ci-val { font-weight: 600; margin-top: 2px; }
+
+  .contact-form {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px;
+  }
+  .contact-form h3 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; margin-bottom: 24px; letter-spacing: .5px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    transition: border .2s;
+    resize: none;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--green);
+  }
+  .form-group select option { background: #0f1e2e; }
+  .form-success {
+    background: var(--green-dim);
+    border: 1px solid var(--green-border);
+    border-radius: 12px;
+    padding: 16px;
+    color: var(--green);
+    font-weight: 600;
+    text-align: center;
+    margin-top: 16px;
+    display: none;
+  }
+
+  /* ── LOCATION MAP ── */
+  .map-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 5% 60px;
+  }
+
+  .map-section-title {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .map-section-title h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; letter-spacing: 1px;
+  }
+
+  .map-wrapper {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--green-border);
+    box-shadow: 0 0 60px rgba(34,197,94,0.08), 0 20px 60px rgba(0,0,0,0.4);
+    position: relative;
+  }
+
+  .map-wrapper iframe {
+    display: block;
+    width: 100%;
+    height: 380px;
+    border: none;
+    filter: invert(90%) hue-rotate(180deg) saturate(0.6) brightness(0.85);
+  }
+
+  .map-overlay-bar {
+    background: var(--card);
+    border-top: 1px solid var(--green-border);
+    padding: 16px 24px;
+    display: flex; flex-wrap: wrap; gap: 20px;
+    align-items: center; justify-content: space-between;
+  }
+
+  .map-info-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--muted);
+  }
+  .map-info-item span:first-child { font-size: 18px; }
+  .map-info-item strong { color: var(--text); display: block; font-size: 13px; }
+
+  .map-directions-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 700; font-size: 13px;
+    text-decoration: none;
+    transition: all .25s;
+    white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(34,197,94,0.3);
+  }
+  .map-directions-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(34,197,94,0.45);
+  }
+
+  /* ── CART PANEL ── */
+  .cart-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    z-index: 1100;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-panel {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(420px, 100vw);
+    background: var(--bg3);
+    border-left: 1px solid var(--border);
+    z-index: 1200;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    display: flex; flex-direction: column;
+  }
+  .cart-panel.open { transform: translateX(0); }
+
+  .cart-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cart-header h3 { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: .5px; }
+  .close-cart {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    cursor: pointer; color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; transition: all .2s;
+  }
+  .close-cart:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #ef4444; }
+
+  .cart-items { flex: 1; overflow-y: auto; padding: 20px 24px; }
+  .cart-empty {
+    text-align: center; padding: 60px 20px;
+    color: var(--muted);
+  }
+  .cart-empty-icon { font-size: 52px; margin-bottom: 16px; display: block; }
+
+  .cart-item {
+    display: flex; gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .cart-item-icon { font-size: 36px; flex-shrink: 0; }
+  .cart-item-info { flex: 1; min-width: 0; }
+  .cart-item-name { font-weight: 700; font-size: 14px; }
+  .cart-item-model { color: var(--muted); font-size: 12px; }
+  .cart-item-price { color: var(--green); font-weight: 800; font-size: 16px; margin-top: 4px; }
+
+  .qty-ctrl {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .qty-btn {
+    width: 28px; height: 28px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    cursor: pointer; color: var(--text);
+    font-size: 16px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+  }
+  .qty-btn:hover { background: var(--green-dim); border-color: var(--green-border); color: var(--green); }
+  .qty-num { font-weight: 700; font-size: 15px; min-width: 20px; text-align: center; }
+
+  .cart-footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+  }
+  .cart-total {
+    display: flex; justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .ct-label { color: var(--muted); font-size: 14px; }
+  .ct-amount { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--green); }
+
+  /* ── WHATSAPP ── */
+  .wa-float {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    z-index: 900;
+    width: 58px; height: 58px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+    cursor: pointer;
+    animation: wiggle 8s 3s ease-in-out infinite;
+    transition: transform .2s;
+  }
+  .wa-float:hover { transform: scale(1.12); }
+  .wa-tooltip {
+    position: absolute;
+    right: 68px; top: 50%;
+    transform: translateY(-50%);
+    background: #25d366;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px; font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+  }
+  .wa-float:hover .wa-tooltip { opacity: 1; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 60px 5% 30px;
+  }
+  .footer-grid {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 40px; margin-bottom: 48px;
+  }
+  .footer-brand p { color: var(--muted); font-size: 14px; line-height: 1.7; margin: 16px 0 24px; }
+  .footer-contact-item {
+    display: flex; gap: 8px; align-items: center;
+    color: var(--muted); font-size: 13px; margin-bottom: 8px;
+  }
+  .footer-contact-item span:first-child { font-size: 14px; }
+  .footer-col h4 {
+    font-weight: 700; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--text); margin-bottom: 18px;
+  }
+  .footer-col a {
+    display: block;
+    color: var(--muted); font-size: 14px;
+    text-decoration: none; margin-bottom: 10px;
+    transition: color .2s; cursor: pointer;
+  }
+  .footer-col a:hover { color: var(--green); }
+  .footer-bottom {
+    max-width: 1280px; margin: 0 auto;
+    padding-top: 24px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.6; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes wiggle {
+    0%,90%,100% { transform: rotate(0); }
+    92% { transform: rotate(-12deg); }
+    94% { transform: rotate(12deg); }
+    96% { transform: rotate(-6deg); }
+    98% { transform: rotate(6deg); }
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 100px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--green);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 100px;
+    font-weight: 700; font-size: 14px;
+    z-index: 2000;
+    opacity: 0;
+    transition: all .3s;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── MOBILE MENU ── */
+  .mobile-nav {
+    display: none;
+    position: fixed; top: 70px; left: 0; right: 0;
+    background: rgba(3,7,18,0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 998;
+    padding: 20px 5%;
+    flex-direction: column; gap: 4px;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a {
+    color: var(--muted); text-decoration: none;
+    font-weight: 600; font-size: 16px;
+    padding: 12px 16px; border-radius: 10px;
+    cursor: pointer; transition: all .2s;
+  }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--green); background: var(--green-dim); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .contact-inner { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 600px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .result-specs { grid-template-columns: 1fr 1fr; }
+    .options-list { grid-template-columns: 1fr; }
+    .result-actions { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" onclick="showPage('home')">
+    <div class="logo-icon">⚡</div>
+    <div class="logo-text">
+      <strong>Raghavendra</strong>
+      <span>Amaron Dealer</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('shop')" id="nav-shop">Shop</a></li>
+    <li><a onclick="showPage('finder')" id="nav-finder">🔧 Battery Finder</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="btn btn-primary" style="padding:9px 18px;font-size:13px;" onclick="showPage('finder')">Find Battery</button>
+    <button class="hamburger" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a onclick="showPage('home');toggleMobileNav()">Home</a>
+  <a onclick="showPage('shop');toggleMobileNav()">Shop</a>
+  <a onclick="showPage('finder');toggleMobileNav()">🔧 Battery Finder</a>
+  <a onclick="showPage('contact');toggleMobileNav()">Contact</a>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!--           HOME PAGE                -->
+<!-- ═══════════════════════════════════ -->
+<div id="home-page" class="page active">
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-badge">⚡ Official Amaron Dealer</div>
+        <h1 class="hero-title">
+          Power Your<br>
+          Vehicle <span class="accent">Right</span>
+        </h1>
+        <p class="hero-desc">
+          Premium Amaron batteries for bikes & cars. Genuine products, expert installation, and instant battery finder — trusted by 10,000+ customers.
+        </p>
+        <div class="hero-btns">
+          <button class="btn btn-primary" onclick="showPage('shop')">🏍️ Shop Bike Batteries</button>
+          <button class="btn btn-outline" onclick="showPage('shop')">🚗 Shop Car Batteries</button>
+          <button class="btn btn-ghost" onclick="showPage('finder')">🔧 Battery Finder</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong>10K+</strong><span>Customers</span></div>
+          <div class="hero-stat"><strong>4.9★</strong><span>Rating</span></div>
+          <div class="hero-stat"><strong>48 Mo</strong><span>Max Warranty</span></div>
+          <div class="hero-stat"><strong>Same Day</strong><span>Install</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="battery-glow"></div>
+        <div class="battery-card-main">
+          <span class="battery-emoji">🔋</span>
+          <h3>Amaron Hi-Life</h3>
+          <p class="model">Model: DIN74</p>
+          <div class="battery-specs-mini">
+            <div class="spec-pill"><strong>74 AH</strong>Capacity</div>
+            <div class="spec-pill"><strong>48 Mo</strong>Warranty</div>
+            <div class="spec-pill"><strong>600 CCA</strong>Cold Start</div>
+            <div class="spec-pill"><strong>In Stock</strong>Available</div>
+          </div>
+        </div>
+        <div class="float-card top-right">
+          <div class="fc-label">Best Seller</div>
+          <div class="fc-val">324 sold this month</div>
+        </div>
+        <div class="float-card bottom-left">
+          <div class="fc-label">Customer Rating</div>
+          <div class="stars">★★★★★</div>
+          <div class="fc-val">4.9 / 5.0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED PRODUCTS -->
+  <section>
+    <div class="section-tag">⚡ Products</div>
+    <h2 class="section-title">Featured Batteries</h2>
+    <p class="section-sub">Trusted by thousands · Genuine Amaron quality</p>
+
+    <div class="product-grid" id="featuredGrid"></div>
+  </section>
+
+  <!-- WHY US -->
+  <section style="background:linear-gradient(180deg,transparent,rgba(34,197,94,0.03),transparent);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="section-tag">✅ Why Us</div>
+    <h2 class="section-title">Why Choose Raghavendra?</h2>
+    <p class="section-sub">Your one-stop destination for genuine Amaron batteries</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">✅</div>
+        <h3>100% Genuine Products</h3>
+        <p>Directly sourced from Amaron — every battery comes with verified authenticity and original warranty card.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚚</div>
+        <h3>Free Delivery & Installation</h3>
+        <p>Free delivery within city limits. Expert technicians for same-day home installation at no extra cost.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Up to 4 Year Warranty</h3>
+        <p>Industry-leading warranty coverage with hassle-free claims and doorstep service support.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💸</div>
+        <h3>Best Price Guarantee</h3>
+        <p>Competitive pricing with transparent GST billing. EMI available on orders above ₹3,000.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>24/7 Expert Support</h3>
+        <p>WhatsApp, phone, and email support round the clock. Battery troubleshooting by certified experts.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔧</div>
+        <h3>Smart Battery Finder</h3>
+        <p>Our intelligent compatibility engine finds the exact Amaron battery for your vehicle in seconds.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section>
+    <div class="section-tag">⭐ Reviews</div>
+    <h2 class="section-title">What Customers Say</h2>
+    <p class="section-sub">Verified reviews from real buyers</p>
+
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="reviewer">
+          <div class="reviewer-avatar">R</div>
+          <div class="reviewer-info"><strong>Rajesh Kumar</strong><span>Bangalore</span></div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Excellent service! The battery finder tool helped me get the exact battery for my Activa 6G within minutes. Delivery was same day and the technician installed it perfectly.</p>
+        <div class="review-vehicle">🏍️ Honda Activa 6G → Amaron Pro Rider APBTZ5L</div>
+      </div>
+      <div class="review-card">
+        <div class="reviewer">
+          <div class="reviewer-avatar">P</div>
+          <div class="reviewer-info"><strong>Priya Sharma</strong><span>Chennai</span></div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">My Creta's battery died suddenly. Called Raghavendra Automobiles and they delivered and installed the new Amaron battery within 3 hours. Superb response time!</p>
+        <div class="review-vehicle">🚗 Hyundai Creta Diesel → Amaron Hi-Life DIN74</div>
+      </div>
+      <div class="review-card">
+        <div class="reviewer">
+          <div class="reviewer-avatar">A</div>
+          <div class="reviewer-info"><strong>Amit Patel</strong><span>Pune</span></div>
+        </div>
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-text">Very genuine products with proper warranty. The price was lower than local shops and the GST invoice was helpful for my business. Highly recommend!</p>
+        <div class="review-vehicle">🚗 Maruti Swift → Amaron Hi-Life DIN45</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="margin-bottom:0">
+          <div class="logo-icon">⚡</div>
+          <div class="logo-text">
+            <strong>Raghavendra</strong>
+            <span>Amaron Dealer</span>
+          </div>
+        </div>
+        <p>Official Amaron Battery Dealer. Trusted by 10,000+ customers across Karnataka. Genuine products, expert service, unmatched quality.</p>
+        <div class="footer-contact-item"><span>📞</span><span>+91-7010821365</span></div>
+        <div class="footer-contact-item"><span>📧</span><span>info@raghavendra.com</span></div>
+        <div class="footer-contact-item"><span>📍</span><span>Urapakkam, GST road, India</span></div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a onclick="showPage('shop')">Bike Batteries</a>
+        <a onclick="showPage('shop')">Car Batteries</a>
+        <a onclick="showPage('finder')">Battery Finder</a>
+        <a>Accessories</a>
+        <a>Best Sellers</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a>Warranty Registration</a>
+        <a>Installation Booking</a>
+        <a>Order Tracking</a>
+        <a onclick="showPage('contact')">Contact Us</a>
+        <a>FAQs</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a>Privacy Policy</a>
+        <a>Terms & Conditions</a>
+        <a>Return Policy</a>
+        <a>Refund Policy</a>
+        <a>GST: 29XXXXX</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Raghavendra Automobiles · Authorized Amaron Dealer</span>
+      <span>Built by Ternox technologies</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!--           SHOP PAGE                -->
+<!-- ═══════════════════════════════════ -->
+<div id="shop-page" class="page">
+  <div style="padding-top:70px;">
+    <section style="padding-top:50px;">
+      <div class="section-tag">🛒 Shop</div>
+      <h2 class="section-title">All Batteries</h2>
+      <p class="section-sub">Genuine Amaron batteries for every vehicle</p>
+
+      <!-- Filter Tabs -->
+      <div style="display:flex;gap:10px;margin-bottom:36px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="filterProducts('all')" id="filter-all">All</button>
+        <button class="btn btn-ghost" onclick="filterProducts('bike')" id="filter-bike">🏍️ Bike</button>
+        <button class="btn btn-ghost" onclick="filterProducts('car')" id="filter-car">🚗 Car</button>
+      </div>
+
+      <div class="product-grid" id="shopGrid"></div>
+    </section>
+
+    <footer>
+      <div class="footer-bottom" style="max-width:1280px;margin:0 auto;">
+        <span>© 2024 Raghavendra Automobiles · Authorized Amaron Dealer</span>
+        <span style="cursor:pointer;color:var(--green)" onclick="showPage('home')">← Back to Home</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!--        BATTERY FINDER PAGE         -->
+<!-- ═══════════════════════════════════ -->
+<div id="finder-page" class="page">
+  <div class="finder-header">
+    <div class="section-tag">🔧 Battery Finder</div>
+    <h1 class="section-title">Find Your Perfect Battery</h1>
+    <p style="color:var(--muted);font-size:16px;">4 simple steps to get your compatible Amaron battery</p>
+  </div>
+
+  <div class="finder-wrap">
+    <div class="finder-card">
+      <!-- Steps Bar -->
+      <div class="steps-bar" id="stepsBar">
+        <div class="step-dot active" id="s1">1</div>
+        <div class="step-line" id="l1"></div>
+        <div class="step-dot todo" id="s2">2</div>
+        <div class="step-line" id="l2"></div>
+        <div class="step-dot todo" id="s3">3</div>
+        <div class="step-line" id="l3"></div>
+        <div class="step-dot todo" id="s4">4</div>
+      </div>
+
+      <!-- Step 1: Vehicle Type -->
+      <div id="step1">
+        <p class="step-title">Select Vehicle Type</p>
+        <p class="step-sub">What type of vehicle do you want a battery for?</p>
+        <div class="type-grid">
+          <div class="type-opt" onclick="selectType('bike')">
+            <span class="type-emoji">🏍️</span>
+            <div class="type-label">Bike / Scooter</div>
+          </div>
+          <div class="type-opt" onclick="selectType('car')">
+            <span class="type-emoji">🚗</span>
+            <div class="type-label">Car / SUV</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Brand -->
+      <div id="step2" style="display:none;">
+        <p class="step-title">Select Brand</p>
+        <p class="step-sub">Choose your vehicle's manufacturer</p>
+        <div class="options-list" id="brandList"></div>
+        <button class="finder-back" onclick="goStep(1)">← Back</button>
+      </div>
+
+      <!-- Step 3: Model -->
+      <div id="step3" style="display:none;">
+        <p class="step-title">Select Model</p>
+        <p class="step-sub">Choose your exact vehicle model</p>
+        <div class="options-list" id="modelList"></div>
+        <button class="finder-back" onclick="goStep(2)">← Back</button>
+      </div>
+
+      <!-- Step 4: Result -->
+      <div id="step4" style="display:none;">
+        <p class="step-title">✨ Perfect Match Found!</p>
+        <p class="step-sub">Here is your compatible Amaron battery</p>
+        <div id="batteryResult"></div>
+        <button class="finder-back" onclick="resetFinder()">🔄 Find Another Battery</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-bottom" style="max-width:1280px;margin:0 auto;">
+      <span>© 2024 Raghavendra Automobiles</span>
+      <span style="cursor:pointer;color:var(--green)" onclick="showPage('home')">← Back to Home</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!--         CONTACT PAGE               -->
+<!-- ═══════════════════════════════════ -->
+<div id="contact-page" class="page">
+  <div class="contact-inner">
+    <div class="contact-info">
+      <div class="section-tag">📞 Contact</div>
+      <h2>Get In Touch</h2>
+      <p>Have a question about batteries, need installation support, or want to place a bulk order? We're here to help!</p>
+
+      <div class="contact-item">
+        <div class="ci-icon">📞</div>
+        <div>
+          <div class="ci-label">Phone</div>
+          <div class="ci-val">+91-7010821365</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="ci-icon">💬</div>
+        <div>
+          <div class="ci-label">WhatsApp</div>
+          <div class="ci-val">+91-7010821365</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="ci-icon">📧</div>
+        <div>
+          <div class="ci-label">Email</div>
+          <div class="ci-val">info@raghavendra.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="ci-icon">📍</div>
+        <div>
+          <div class="ci-label">Address</div>
+          <div class="ci-val">Urapakkam, GST road, India</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="ci-icon">🕐</div>
+        <div>
+          <div class="ci-label">Working Hours</div>
+          <div class="ci-val">Mon–Sun: 9AM – 7PM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h3>Send Us a Message</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Rajesh" id="cf-fname">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Kumar" id="cf-lname">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+91-XXXXX-XXXXX" id="cf-phone">
+      </div>
+      <div class="form-group">
+        <label>Vehicle</label>
+        <input type="text" placeholder="e.g. Honda Activa 6G" id="cf-vehicle">
+      </div>
+      <div class="form-group">
+        <label>Enquiry Type</label>
+        <select id="cf-type">
+          <option>Battery Purchase</option>
+          <option>Installation Booking</option>
+          <option>Warranty Claim</option>
+          <option>Price Enquiry</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea rows="4" placeholder="Describe your requirement..." id="cf-msg"></textarea>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="submitContact()">
+        📤 Send Message
+      </button>
+      <div class="form-success" id="formSuccess">
+        ✅ Message sent! We'll contact you within 2 hours.
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCATION MAP -->
+  <div class="map-section">
+    <div class="map-section-title">
+      <div class="section-tag" style="margin-bottom:0;">📍 Find Us</div>
+      <h3>Our Location</h3>
+    </div>
+    <div class="map-wrapper">
+      
+      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31117.55422929665!2d80.061454!3d12.8630121!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52f77a42c7248d%3A0xb8f0034ba16eb1d2!2sSri%20Raghavendra%20Battery!5e0!3m2!1sen!2sin!4v1780296328655!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        src=""
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Raghavendra Automobiles Location">
+      <div class="map-overlay-bar">
+        <div class="map-info-item">
+          <span>📍</span>
+          <div><strong>Raghavendra Automobiles</strong>Urapakkam, GST road, India</div>
+        </div>
+        <div class="map-info-item">
+          <span>🕐</span>
+          <div><strong>Working Hours</strong>Mon–Sat: 9AM – 7PM</div>
+        </div>
+        <div class="map-info-item">
+          <span>📞</span>
+          <div><strong>Call Us</strong>+91-7010821365</div>
+        </div>
+        <a
+          href="https://maps.app.goo.gl/SGS6JCM8Xf7TdzmdA"
+          target="_blank"
+          class="map-directions-btn">
+          🗺️ Get Directions
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-bottom" style="max-width:1280px;margin:0 auto;padding:24px 5%;">
+      <span>© 2026 Raghavendra Automobiles · Authorized Amaron Dealer</span>
+      <span style="cursor:pointer;color:var(--green)" onclick="showPage('home')">← Back to Home</span>
+    </div>
+  </footer>
+</div>
+
+<!-- CART OVERLAY + PANEL -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h3>🛒 Your Cart</h3>
+    <button class="close-cart" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <span class="cart-empty-icon">🛒</span>
+      <p>Your cart is empty</p>
+      <p style="font-size:13px;color:var(--muted);margin-top:8px;">Use Battery Finder to add items</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="ct-label">Total Amount</span>
+      <span class="ct-amount" id="cartTotal">₹0</span>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:15px;padding:14px;" onclick="checkout()">
+      Proceed to Checkout →
+    </button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px;" onclick="toggleCart()">
+      Continue Shopping
+    </button>
+  </div>
+</div>
+
+<!-- WHATSAPP FLOAT -->
+<a class="wa-float" href="https://wa.me/917010821365" target="_blank" title="Chat on WhatsApp">
+  💬
+  <span class="wa-tooltip">Chat on WhatsApp</span>
+</a>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════ SCRIPTS ═══════════════════════════════ -->
+<script>
+// ── DATA ──
+const BATTERIES = [
+  { id:1, name:'Amaron Pro Rider', model:'APBTZ5L', type:'bike', emoji:'🏍️', capacity:'5 AH', warranty:'24 Months', price:2599, stock:45, rating:4.8, reviews:324, badge:'Best Seller', features:['Anti-Sulphation','Maintenance Free','Sealed'] },
+  { id:2, name:'Amaron Go', model:'AGO4L-D', type:'bike', emoji:'⚡', capacity:'4 AH', warranty:'18 Months', price:1899, stock:62, rating:4.6, reviews:201, badge:'Budget Pick', features:['Reliable','Easy Install','Lightweight'] },
+  { id:3, name:'Amaron Quanta', model:'AQTZ5L', type:'bike', emoji:'⭐', capacity:'5 AH', warranty:'30 Months', price:3199, stock:28, rating:4.9, reviews:156, badge:'Premium', features:['Superior Power','Extended Warranty','Fast Charge'] },
+  { id:4, name:'Amaron Hi-Life', model:'DIN45', type:'car', emoji:'🚗', capacity:'45 AH', warranty:'30 Months', price:4299, stock:23, rating:4.9, reviews:512, badge:'Top Rated', features:['Long Life','Fast Charging','Sealed Design'] },
+  { id:5, name:'Amaron Flo', model:'DIN60', type:'car', emoji:'💎', capacity:'60 AH', warranty:'36 Months', price:6299, stock:17, rating:4.8, reviews:189, badge:'Premium', features:['SUV Ready','Max Power','Smart Build'] },
+  { id:6, name:'Amaron Hi-Life', model:'DIN74', type:'car', emoji:'🔥', capacity:'74 AH', warranty:'48 Months', price:7899, stock:11, rating:4.9, reviews:98, badge:'Heavy Duty', features:['Industrial Grade','Max Reliability','600 CCA'] },
+];
+
+const COMPATIBILITY = {
+  bike: {
+    'Hero':   { 'Splendor Plus': 1, 'HF Deluxe': 2, 'Passion Plus': 1 },
+    'Honda':  { 'Activa 6G': 1, 'CB Shine': 2, 'CB Hornet': 3 },
+    'TVS':    { 'Apache RTR 160': 1, 'Star City': 2, 'Jupiter': 1 },
+    'Bajaj':  { 'CT 100': 2, 'Pulsar 150': 1, 'Avenger': 3 },
+    'Yamaha': { 'FZS': 1, 'R15': 3, 'SZ-RR': 1 },
+    'Suzuki': { 'Access': 1, 'Burgman Street': 2 },
+  },
+  car: {
+    'Maruti Suzuki': { 'Swift Petrol': 4, 'Baleno': 4, 'Brezza': 4 },
+    'Hyundai':       { 'Creta Petrol': 5, 'Creta Diesel': 6, 'i20': 4 },
+    'Tata':          { 'Nexon Petrol': 4, 'Nexon Diesel': 6, 'Tiago': 4 },
+    'Mahindra':      { 'XUV500': 6, 'Scorpio': 6, 'XUV300': 4 },
+    'Toyota':        { 'Fortuner': 6, 'Innova': 6, 'Glanza': 4 },
+    'Kia':           { 'Seltos': 5, 'Sonet': 4 },
+  }
+};
+
+// ── STATE ──
+let cart = [];
+let finderState = { type:'', brand:'', model:'' };
+let currentFilter = 'all';
+
+// ── NAVIGATION ──
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(page + '-page').classList.add('active');
+  document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + page);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo(0,0);
+  if (page === 'shop') renderShop();
+}
+
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+// ── PRODUCTS ──
+function renderStars(r) {
+  return '★'.repeat(Math.floor(r)) + (r%1>=0.5?'½':'') + '☆'.repeat(5-Math.ceil(r));
+}
+
+function productCardHTML(b) {
+  return `
+    <div class="product-card">
+      <div class="product-badge ${b.badge==='Premium'?'premium':b.badge==='New'?'new':''}">${b.badge}</div>
+      <div class="product-img">${b.emoji}</div>
+      <div class="product-body">
+        <div class="product-type">${b.type === 'bike' ? '🏍️ Bike Battery' : '🚗 Car Battery'}</div>
+        <div class="product-name">${b.name}</div>
+        <div class="product-model">Model: ${b.model}</div>
+        <div class="product-meta">
+          <div class="meta-item"><span class="mi-label">Capacity</span><div class="mi-val">${b.capacity}</div></div>
+          <div class="meta-item"><span class="mi-label">Warranty</span><div class="mi-val">${b.warranty}</div></div>
+          <div class="meta-item"><span class="mi-label">Stock</span><div class="mi-val">${b.stock} units</div></div>
+          <div class="meta-item"><span class="mi-label">Rating</span><div class="mi-val">${b.rating}/5 ⭐</div></div>
+        </div>
+        <div class="product-rating">
+          <span class="stars-row">${renderStars(b.rating)}</span>
+          <span class="rating-count">(${b.reviews} reviews)</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">₹${b.price.toLocaleString()}</div>
+          <div class="product-actions">
+            <button class="icon-btn" onclick="wishlist(${b.id})" title="Wishlist">♡</button>
+            <button class="add-cart-btn" onclick="addToCart(${b.id})">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderFeatured() {
+  const el = document.getElementById('featuredGrid');
+  if (!el) return;
+  el.innerHTML = BATTERIES.slice(0,3).map(productCardHTML).join('');
+}
+
+function renderShop() {
+  const el = document.getElementById('shopGrid');
+  if (!el) return;
+  const filtered = currentFilter === 'all' ? BATTERIES : BATTERIES.filter(b => b.type === currentFilter);
+  el.innerHTML = filtered.map(productCardHTML).join('');
+}
+
+function filterProducts(type) {
+  currentFilter = type;
+  ['all','bike','car'].forEach(t => {
+    const btn = document.getElementById('filter-' + t);
+    btn.className = t === type ? 'btn btn-primary' : 'btn btn-ghost';
+  });
+  renderShop();
+}
+
+// ── CART ──
+function addToCart(id) {
+  const b = BATTERIES.find(x => x.id === id);
+  if (!b) return;
+  const existing = cart.find(x => x.id === id);
+  if (existing) existing.qty++;
+  else cart.push({ ...b, qty: 1 });
+  updateCartUI();
+  showToast(`✅ ${b.name} added to cart!`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  updateCartUI();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(x => x.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(id);
+  else updateCartUI();
+}
+
+function updateCartUI() {
+  const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  const count = cart.reduce((s,i) => s + i.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartTotal').textContent = '₹' + total.toLocaleString();
+
+  const itemsEl = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    itemsEl.innerHTML = `<div class="cart-empty"><span class="cart-empty-icon">🛒</span><p>Your cart is empty</p><p style="font-size:13px;color:var(--muted);margin-top:8px;">Use Battery Finder to add items</p></div>`;
+    return;
+  }
+  itemsEl.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <span class="cart-item-icon">${item.emoji}</span>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-model">${item.model}</div>
+        <div class="cart-item-price">₹${(item.price * item.qty).toLocaleString()}</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+        <span class="qty-num">${item.qty}</span>
+        <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleCart() {
+  document.getElementById('cartPanel').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('open');
+}
+
+function checkout() {
+  if (cart.length === 0) { showToast('❌ Cart is empty!'); return; }
+  showToast('✅ Redirecting to checkout... (connect backend)');
+  toggleCart();
+}
+
+function wishlist(id) {
+  const b = BATTERIES.find(x => x.id === id);
+  if (b) showToast(`❤️ ${b.name} saved to wishlist!`);
+}
+
+// ── BATTERY FINDER ──
+function selectType(type) {
+  finderState.type = type;
+  goStep(2);
+  const brands = Object.keys(COMPATIBILITY[type]);
+  document.getElementById('brandList').innerHTML = brands.map(b =>
+    `<button class="opt-btn" onclick="selectBrand('${b}')">${b}</button>`
+  ).join('');
+}
+
+function selectBrand(brand) {
+  finderState.brand = brand;
+  goStep(3);
+  const models = Object.keys(COMPATIBILITY[finderState.type][brand]);
+  document.getElementById('modelList').innerHTML = models.map(m =>
+    `<button class="opt-btn" onclick="selectModel('${m}')">${m}</button>`
+  ).join('');
+}
+
+function selectModel(model) {
+  finderState.model = model;
+  const batteryId = COMPATIBILITY[finderState.type][finderState.brand][model];
+  const b = BATTERIES.find(x => x.id === batteryId);
+  goStep(4);
+  document.getElementById('batteryResult').innerHTML = `
+    <div class="result-card">
+      <div class="result-header">
+        <span class="result-emoji">${b.emoji}</span>
+        <div class="result-name">${b.name}</div>
+        <div class="result-model">Model: ${b.model} · Compatible with ${finderState.brand} ${model}</div>
+      </div>
+      <div class="result-specs">
+        <div class="rs"><div class="rs-label">Capacity</div><div class="rs-val">${b.capacity}</div></div>
+        <div class="rs"><div class="rs-label">Warranty</div><div class="rs-val">${b.warranty}</div></div>
+        <div class="rs"><div class="rs-label">Rating</div><div class="rs-val">${b.rating}/5 ⭐</div></div>
+        <div class="rs"><div class="rs-label">Stock</div><div class="rs-val">${b.stock} units</div></div>
+      </div>
+      <div class="result-features">
+        ${b.features.map(f => `<span class="feat-tag">✓ ${f}</span>`).join('')}
+      </div>
+      <div class="result-price">
+        <div>
+          <div class="rp-label">Best Price</div>
+          <div class="rp-amount">₹${b.price.toLocaleString()}</div>
+        </div>
+        <span class="stock-badge">✅ In Stock</span>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-primary" onclick="addToCart(${b.id});showToast('🛒 Added!')" style="justify-content:center;">🛒 Add to Cart</button>
+        <button class="btn btn-outline" onclick="showToast('📅 Installation booking coming soon!')" style="justify-content:center;">📅 Book Install</button>
+      </div>
+    </div>
+  `;
+}
+
+function goStep(n) {
+  [1,2,3,4].forEach(i => {
+    document.getElementById('step' + i).style.display = i === n ? 'block' : 'none';
+  });
+  updateStepsBar(n);
+}
+
+function updateStepsBar(current) {
+  [1,2,3,4].forEach(i => {
+    const dot = document.getElementById('s' + i);
+    dot.className = 'step-dot ' + (i < current ? 'done' : i === current ? 'active' : 'todo');
+    if (i < 4) {
+      document.getElementById('l' + i).className = 'step-line' + (i < current ? ' done' : '');
+    }
+  });
+}
+
+function resetFinder() {
+  finderState = { type:'', brand:'', model:'' };
+  goStep(1);
+}
+
+// ── CONTACT ──
+function submitContact() {
+  const fname = document.getElementById('cf-fname').value;
+  const phone = document.getElementById('cf-phone').value;
+  if (!fname || !phone) { showToast('❌ Please fill name and phone!'); return; }
+  document.getElementById('formSuccess').style.display = 'block';
+  showToast('✅ Message sent successfully!');
+  setTimeout(() => document.getElementById('formSuccess').style.display = 'none', 5000);
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── INIT ──
+renderFeatured();
+</script>
+</body>
+</html>
